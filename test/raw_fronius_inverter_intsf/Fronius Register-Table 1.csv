@@ -1,0 +1,15 @@
+"Start
+Offset","End
+Offset",Size,RW,"Function
+codes",Name,Description,Type,Units,Scale Factor,"Range
+of values"
+212,212,1,RW,0x03 0x06 0x10,F_Delete_Data,Delete stored ratings of the current inverter by writing 0xFFFF.,uint16,,,0xFFFF
+213,213,1,RW,0x03 0x06 0x10,F_Store_Data,Rating data of all inverters connected to the Fronius Datamanager are persistently stored by writing 0xFFFF.,uint16,,,0xFFFF
+214,214,1,R,0x03,F_Active_State_Code,Current active state code of inverter - Description can be found in inverter manual,uint16,,,
+215,215,1,RW,0x03 0x06 0x10,F_Reset_All_Event_Flags,Write 0xFFFF to reset all event flags and active state code.,uint16,,,0xFFFF
+216,216,1,RW,0x03 0x06 0x10,F_ModelType,Type of SunSpec models used for inverter and meter data. Write 1 or 2 and then immediately 6 to acknowledge setting.,uint16,,,"1: Floating point 2: Integer & SF"
+217,217,1,RW,0x03 0x06 0x10,F_Storage_Restrictions_View_Mode,Type of Restrictions reported in BasicStorageControl Model (IC124). Local restrictions are those that are set by Modbus Interface. Global restrictions are those that are set system wide.,uint16,,,0: local (default); 1: global
+500,501,2,R,0x03,F_Site_Power,Total power (site sum) of all connected inverters.,uint32,W,,
+502,505,4,R,0x03,F_Site_Energy_Day,Total energy for current day of all connected inverters.,uint64,Wh,,
+506,509,4,R,0x03,F_Site_Energy_Year,Total energy for last year of all connected inverters.,uint64,Wh,,
+510,513,4,R,0x03,F_Site_Energy_Total,Total energy of all connected inverters.,uint64,Wh,,

@@ -1,0 +1,32 @@
+1,:uint16,r,ID,(ID Units:  SF: ) A well-known value 121.  Uniquely identifies this as a SunSpec Basic Settings Model - Range: 121
+2,:uint16,r,L,(L Units: Registers SF: ) Length of Basic Settings Model - Range: 30
+3,:uint16,r,WMax,(WMax Units: W SF: VAMax_SF) Setting for maximum power output. Default to I_WRtg. - Range:
+4,:uint16,rw,VRef,(VRef Units: V SF: VRef_SF) Voltage at the PCC. - Range:
+5,:int16,rw,VRefOfs,(VRefOfs Units: V SF: VRefOfs_SF) Offset  from PCC to inverter. - Range:
+6,:uint16,rw,VMax,(VMax Units: V SF: VMinMax_SF) Setpoint for maximum voltage. - Range:
+7,:uint16,rw,VMin,(VMin Units: V SF: VMinMax_SF) Setpoint for minimum voltage. - Range:
+8,:int16,r,VAMax,(VAMax Units: VA SF: VAMax_SF) Setpoint for maximum apparent power. Default to I_VARtg. - Range:
+9,:int16,r,VARMaxQ1,(VARMaxQ1 Units: var SF: VARMax_SF) Setting for maximum reactive power in quadrant 1. Default to VArRtgQ1. - Range:
+10,:int16,r,VARMaxQ2,(VARMaxQ2 Units: var SF: VARMax_SF) Setting for maximum reactive power in quadrant 2. Default to VArRtgQ2. - Range: Not supported
+11,:int16,r,VARMaxQ3,(VARMaxQ3 Units: var SF: VARMax_SF) Setting for maximum reactive power in quadrant 3 Default to VArRtgQ3. - Range: Not supported
+12,:int16,r,VARMaxQ4,(VARMaxQ4 Units: var SF: VARMax_SF) Setting for maximum reactive power in quadrant 4 Default to VArRtgQ4. - Range:
+13,:uint16,r,WGra,(WGra Units: % WMax/min SF: WGra_SF) Default ramp rate of change of active power due to command or internal action. - Range: Not supported
+14,:int16,r,PFMinQ1,(PFMinQ1 Units: cos() SF: PFMin_SF) Setpoint for minimum power factor value in quadrant 1. Default to PFRtgQ1. - Range:
+15,:int16,r,PFMinQ2,(PFMinQ2 Units: cos() SF: PFMin_SF) Setpoint for minimum power factor value in quadrant 2. Default to PFRtgQ2. - Range: Not supported
+16,:int16,r,PFMinQ3,(PFMinQ3 Units: cos() SF: PFMin_SF) Setpoint for minimum power factor value in quadrant 3. Default to PFRtgQ3. - Range: Not supported
+17,:int16,r,PFMinQ4,(PFMinQ4 Units: cos() SF: PFMin_SF) Setpoint for minimum power factor value in quadrant 4. Default to PFRtgQ4. - Range:
+18,:enum16,r,VArAct,(VArAct Units:  SF: ) VAR action on change between charging and discharging: 1=switch 2=maintain VAR characterization. - Range: Not supported
+19,:enum16,r,ClcTotVA,(ClcTotVA Units:  SF: ) Calculation method for total apparent power. 1=vector 2=arithmetic. - Range: Not supported
+20,:uint16,r,MaxRmpRte,(MaxRmpRte Units: % WGra SF: MaxRmpRte_SF) Setpoint for maximum ramp rate as percentage of nominal maximum ramp rate. This setting will limit the rate that watts delivery to the grid can increase or decrease in response to intermittent PV generation. - Range: Not supported
+21,:uint16,r,ECPNomHz,(ECPNomHz Units: Hz SF: ECPNomHz_SF) Setpoint for nominal frequency at the ECP. - Range: Not supported
+22,:enum16,r,ConnPh,(ConnPh Units:  SF: ) Identity of connected phase for single phase inverters. A=1 B=2 C=3. - Range: Not supported
+23,:sunssf,r,WMax_SF,(WMax_SF Units:  SF: ) Scale factor for maximum power output. - Range: 0
+24,:sunssf,r,VRef_SF,(VRef_SF Units:  SF: ) Scale factor for voltage at the PCC. - Range: 0
+25,:sunssf,r,VRefOfs_SF,(VRefOfs_SF Units:  SF: ) Scale factor for offset voltage. - Range: 0
+26,:sunssf,r,VMinMax_SF,(VMinMax_SF Units:  SF: ) Scale factor for min/max voltages. - Range: 0
+27,:sunssf,r,VAMax_SF,(VAMax_SF Units:  SF: ) Scale factor for voltage at the PCC. - Range: 0
+28,:sunssf,r,VARMax_SF,(VARMax_SF Units:  SF: ) Scale factor for reactive power. - Range: 1
+29,:sunssf,r,WGra_SF,(WGra_SF Units:  SF: ) Scale factor for default ramp rate. - Range: Not supported
+30,:sunssf,r,PFMin_SF,(PFMin_SF Units:  SF: ) Scale factor for minimum power factor. - Range: -3
+31,:sunssf,r,MaxRmpRte_SF,(MaxRmpRte_SF Units:  SF: ) Scale factor for maximum ramp percentage. - Range: Not supported
+32,:sunssf,r,ECPNomHz_SF,(ECPNomHz_SF Units:  SF: ) Scale factor for nominal frequency. - Range: Not supported

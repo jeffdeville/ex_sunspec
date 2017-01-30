@@ -1,0 +1,26 @@
+1,:uint16,r,ID,(ID Units:  SF: ) A well-known value 123.  Uniquely identifies this as a SunSpec Immediate Controls Model - Range: 123
+2,:uint16,r,L,(L Units: Registers SF: ) Length of Immediate Controls Model - Range: 24
+3,:uint16,rw,Conn_WinTms,(Conn_WinTms Units: Secs SF: ) Time window for connect/disconnect. - Range:
+4,:uint16,rw,Conn_RvrtTms,(Conn_RvrtTms Units: Secs SF: ) Timeout period for connect/disconnect. - Range:
+5,:bitfield16,rw,Conn,(Conn Units:  SF: ) Enumerated valued.  Connection control. - Range: 0: Disconnected 1: Connected
+6,:uint16,rw,WMaxLimPct,(WMaxLimPct Units: % WMax SF: WMaxLimPct_SF) Set power output to specified level. - Range:
+7,:uint16,rw,WMaxLimPct_WinTms,(WMaxLimPct_WinTms Units: Secs SF: ) Time window for power limit change. - Range: 0 - 300
+8,:uint16,rw,WMaxLimPct_RvrtTms,(WMaxLimPct_RvrtTms Units: Secs SF: ) Timeout period for power limit. - Range: 0 - 28800
+9,:uint16,r,WMaxLimPct_RmpTms,(WMaxLimPct_RmpTms Units: Secs SF: ) Ramp time for moving from current setpoint to new setpoint. - Range: Not supported
+10,:enum16,rw,WMaxLim_Ena,(WMaxLim_Ena Units:  SF: ) Enumerated valued.  Throttle enable/disable control. - Range: 0: Disabled 1: Enabled
+11,:int16,rw,OutPFSet,(OutPFSet Units: cos() SF: OutPFSet_SF) Set power factor to specific value - cosine of angle. - Range:
+12,:uint16,rw,OutPFSet_WinTms,(OutPFSet_WinTms Units: Secs SF: ) Time window for power factor change. - Range: 0 – 300
+13,:uint16,rw,OutPFSet_RvrtTms,(OutPFSet_RvrtTms Units: Secs SF: ) Timeout period for power factor. - Range: 0 – 28800
+14,:uint16,rw,OutPFSet_RmpTms,(OutPFSet_RmpTms Units: Secs SF: ) Ramp time for moving from current setpoint to new setpoint. - Range: Not supported
+15,:enum16,rw,OutPFSet_Ena,(OutPFSet_Ena Units:  SF: ) Enumerated valued.  Fixed power factor enable/disable control. - Range: 0: Disabled 1: Enabled
+16,:int16,r,VArWMaxPct,(VArWMaxPct Units: % WMax SF: VArWMaxPct_SF) Reactive power in percent of I_WMax. - Range: Not supported
+17,:int16,rw,VArMaxPct,(VArMaxPct Units: % VArMax SF: VArPct_SF) Reactive power in percent of I_VArMax. - Range:
+18,:int16,r,VArAvalPct,(VArAvalPct Units: % VArAval SF: VArPct_SF) Reactive power in percent of I_VArAval. - Range: Not supported
+19,:uint16,rw,VArPct_WinTms,(VArPct_WinTms Units: Secs SF: ) Time window for VAR limit change. - Range: 0 – 300
+20,:uint16,rw,VArPct_RvrtTms,(VArPct_RvrtTms Units: Secs SF: ) Timeout period for VAR limit. - Range: 0 – 28800
+21,:uint16,rw,VArPct_RmpTms,(VArPct_RmpTms Units: Secs SF: ) Ramp time for moving from current setpoint to new setpoint. - Range: Not supported
+22,:enum16,r,VArPct_Mod,(VArPct_Mod Units:  SF: ) Enumerated value. VAR limit mode. - Range: 2: VAR limit as a % of VArMax
+23,:enum16,rw,VArPct_Ena,(VArPct_Ena Units:  SF: ) Enumerated valued.  Fixed VAR enable/disable control. - Range: 0: Disabled 1: Enabled
+24,:sunssf,r,WMaxLimPct_SF,(WMaxLimPct_SF Units:  SF: ) Scale factor for power output percent. - Range: 0
+25,:sunssf,r,OutPFSet_SF,(OutPFSet_SF Units:  SF: ) Scale factor for power factor. - Range: -3
+26,:sunssf,r,VArPct_SF,(VArPct_SF Units:  SF: ) Scale factor for reactive power. - Range: 0

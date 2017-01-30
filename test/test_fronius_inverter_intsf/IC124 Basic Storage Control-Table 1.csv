@@ -1,0 +1,26 @@
+1,:uint16,r,ID,(ID Units:  SF: ) A well-known value 124.  Uniquely identifies this as a SunSpec Basic Storage Controls Model - Range: 124
+2,:uint16,r,L,(L Units: Registers SF: ) Length of Basic Storage Controls - Range: 24
+3,:uint16,r,WchaMax,(WchaMax Units: W SF: WChaMax_SF) Setpoint for maximum charge. Additional Fronius description: Reference Value for maximum Charge and Discharge. Multiply this value by InWRte to define maximum charging and OutWRte to define maximum discharging. Every rate between this two limits is allowed. Note that  InWRte and OutWRte can be negative to define ranges for charging and discharging only. - Range:
+4,:uint16,r,WchaGra,(WchaGra Units: % WChaMax/sec SF: WChaDisChaGra_SF) Setpoint for maximum charging rate. Default is MaxChaRte. - Range: 100
+5,:uint16,r,WdisChaGra,(WdisChaGra Units: % WChaMax/sec SF: WChaDisChaGra_SF) Setpoint for maximum discharge rate. Default is MaxDisChaRte. - Range: 100
+6,:bitfield16,rw,StorCtl_Mod,(StorCtl_Mod Units:  SF: ) Activate hold/discharge/charge storage control mode. Bitfield value. Additional Fronius description: Active hold/discharge/charge storage control mode. Set the charge field to enable charging and the discharge field to enable discharging. Bitfield value. - Range: bit 0: CHARGE bit 1: DiSCHARGE
+7,:uint16,r,VAChaMax,(VAChaMax Units: VA SF: VAChaMax_SF) Setpoint for maximum charging VA. - Range: Not supported
+8,:uint16,rw,MinRsvPct,(MinRsvPct Units: % WChaMax SF: MinRsvPct_SF) Setpoint for minimum reserve for storage as a percentage of the nominal maximum storage. - Range:
+9,:uint16,r,ChaState,(ChaState Units: % AhrRtg SF: ChaState_SF) Currently available energy as a percent of the capacity rating. - Range:
+10,:uint16,r,StorAval,(StorAval Units: AH SF: StorAval_SF) State of charge (ChaState) minus storage reserve (MinRsvPct) times capacity rating (AhrRtg). - Range:
+11,:uint16,r,InBatV,(InBatV Units: V SF: InBatV_SF) Internal battery voltage. - Range:
+12,:enum16,r,ChaSt,(ChaSt Units:  SF: ) Charge status of storage device. Enumerated value. - Range: 1: OFF 2: EMPTY 3: DISCHAGING 4: CHARGING 5: FULL 6: HOLDING 7: TESTING
+13,:int16,rw,OutWRte,(OutWRte Units: % WChaMax SF: InOutWRte_SF) Percent of max discharge rate. Additional Fronius description: Defines maximum Discharge rate. If not used than the default is 100 and wChaMax defines max. Discharge rate. See wChaMax for details. - Range:
+14,:int16,rw,InWRte,(InWRte Units: % WChaMax SF: InOutWRte_SF) Percent of max charging rate. Additional Fronius description: Defines maximum Charge rate. If not used than the default is 100 and wChaMax defines max. Charge rate. See wChaMax for details. - Range:
+15,:uint16,r,InOutWRte_WinTms,(InOutWRte_WinTms Units: Secs SF: ) Time window for charge/discharge rate change. - Range: Not supported
+16,:uint16,r,InOutWRte_RvrtTms,(InOutWRte_RvrtTms Units: Secs SF: ) Timeout period for charge/discharge rate. - Range: Not supported
+17,:uint16,r,InOutWRte_RmpTms,(InOutWRte_RmpTms Units: Secs SF: ) Ramp time for moving from current setpoint to new setpoint. - Range: Not supported
+18,:enum16,rw,ChaGriSet,(ChaGriSet Units:  SF: ) Setpoint to enable/disable charging from grid - Range: 0: PV (Charging from grid disabled) 1: GRID (Charging from grid enabled)
+19,:sunssf,r,WchaMax_SF,(WchaMax_SF Units:  SF: ) Scale factor for maximum charge. - Range: 0
+20,:sunssf,r,WchaDisChaGra_SF,(WchaDisChaGra_SF Units:  SF: ) Scale factor for maximum charge and discharge rate. - Range: 0
+21,:sunssf,r,VAChaMax_SF,(VAChaMax_SF Units:  SF: ) Scale factor for maximum charging VA. - Range: Not supported
+22,:sunssf,r,MinRsvPct_SF,(MinRsvPct_SF Units:  SF: ) Scale factor for minimum reserve percentage. - Range: -2
+23,:sunssf,r,ChaState_SF,(ChaState_SF Units:  SF: ) Scale factor for available energy percent. - Range: -2
+24,:sunssf,r,StorAval_SF,(StorAval_SF Units:  SF: ) Scale factor for state of charge. - Range: -2
+25,:sunssf,r,InBatV_SF,(InBatV_SF Units:  SF: ) Scale factor for battery voltage. - Range: -2
+26,:sunssf,r,InOutWRte_SF,(InOutWRte_SF Units:  SF: ) Scale factor for percent charge/discharge rate. - Range: -2

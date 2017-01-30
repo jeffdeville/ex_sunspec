@@ -1,0 +1,50 @@
+"Start
+Offset","End
+Offset",Size,RW,"Function
+codes",Name,Description,Type,Units,Scale Factor,"Range
+of values"
+1,1,1,R,0x03,ID,"Uniquely identifies this as a SunSpec Inverter  Modbus Map; 101: single phase, 102: split phase, 103: three phase",uint16,,,"101, 102, 103"
+2,2,1,R,0x03,L,Length of inverter model block,uint16,Registers,,50
+3,3,1,R,0x03,A,AC Total Current value,uint16,A,A_SF,
+4,4,1,R,0x03,AphA,AC Phase-A Current value,uint16,A,A_SF,
+5,5,1,R,0x03,AphB,AC Phase-B Current value,uint16,A,A_SF,
+6,6,1,R,0x03,AphC,AC Phase-C Current value,uint16,A,A_SF,
+7,7,1,R,0x03,A_SF,AC Current Scale factor,sunssf,,,
+8,8,1,R,0x03,PPVphAB,AC Voltage Phase-AB value,uint16,V,V_SF,
+9,9,1,R,0x03,PPVphBC,AC Voltage Phase-BC value,uint16,V,V_SF,
+10,10,1,R,0x03,PPVphCA,AC Voltage Phase-CA value,uint16,V,V_SF,
+11,11,1,R,0x03,PhVphA,AC Voltage Phase-A-to-neutral value,uint16,V,V_SF,
+12,12,1,R,0x03,PhVphB,AC Voltage Phase-B-to-neutral value,uint16,V,V_SF,
+13,13,1,R,0x03,PhVphC,AC Voltage Phase-C-to-neutral value,uint16,V,V_SF,
+14,14,1,R,0x03,V_SF,AC Voltage Scale factor,sunssf,,,
+15,15,1,R,0x03,W,AC Power value,int16,W,W_SF,
+16,16,1,R,0x03,W_SF,AC Power Scale factor,sunssf,,,
+17,17,1,R,0x03,Hz,AC Frequency value,uint16,Hz,Hz_SF,
+18,18,1,R,0x03,Hz_SF,Scale factor,sunssf,,,
+19,19,1,R,0x03,VA,Apparent Power,int16,VA,VA_SF,
+20,20,1,R,0x03,VA_SF,Scale factor,sunssf,,,
+21,21,1,R,0x03,VAr,Reactive Power,int16,VAr,VAr_SF,
+22,22,1,R,0x03,VAr_SF,Scale factor,sunssf,,,
+23,23,1,R,0x03,PF,Power Factor,int16,%,PF_SF,
+24,24,1,R,0x03,PF_SF,Scale factor,sunssf,,,
+25,26,2,R,0x03,WH,AC Lifetime Energy production,uint32,Wh,WH_SF,
+27,27,1,R,0x03,WH_SF,AC Lifetime Energy production scale factor,sunssf,,,
+28,28,1,R,0x03,DCA,DC Current value,uint16,A,DCA_SF,Not supported if multiple DC inputs; current can be found in Multiple MPPT model
+29,29,1,R,0x03,DCA_SF,Scale factor,sunssf,,,Not supported if multiple DC inputs.
+30,30,1,R,0x03,DCV,DC Voltage value,uint16,V,DCV_SF,Not supported if multiple DC inputs; voltage can be found in Multiple MPPT model
+31,31,1,R,0x03,DCV_SF,Scale factor,sunssf,,,Not supported if multiple DC inputs.
+32,32,1,R,0x03,DCW,DC Power value,int16,W,DCW_SF,Total power of all DC inputs
+33,33,1,R,0x03,DCW_SF,Scale factor,sunssf,,,
+34,34,1,R,0x03,TmpCab,Cabinet Temperature,int16,° C,Tmp_SF,Not supported
+35,35,1,R,0x03,TmpSnk,Coolant or Heat Sink Temperature,int16,° C,Tmp_SF,Not supported
+36,36,1,R,0x03,TmpTrns,Transformer Temperature,int16,° C,Tmp_SF,Not supported
+37,37,1,R,0x03,TmpOt,Other Temperature,int16,° C,Tmp_SF,Not supported
+38,38,1,R,0x03,Tmp_SF,Scale factor,sunssf,,,Not supported
+39,39,1,R,0x03,St,Operating State,enum16,Enumerated,N/A,
+40,40,1,R,0x03,StVnd,Vendor Defined Operating State,enum16,Enumerated,N/A,
+41,42,2,R,0x03,Evt1,Event Flags (bits 0-31),uint32,Bitfield,N/A,
+43,44,2,R,0x03,Evt2,Event Flags (bits 32-63),uint32,Bitfield,N/A,
+45,46,2,R,0x03,EvtVnd1,Vendor Defined Event Flags (bits 0-31),uint32,Bitfield,N/A,
+47,48,2,R,0x03,EvtVnd2,Vendor Defined Event Flags (bits 32-63),uint32,Bitfield,N/A,
+49,50,2,R,0x03,EvtVnd3,Vendor Defined Event Flags (bits 64-95),uint32,Bitfield,N/A,
+51,52,2,R,0x03,EvtVnd4,Vendor Defined Event Flags (bits 96-127),uint32,Bitfield,N/A,

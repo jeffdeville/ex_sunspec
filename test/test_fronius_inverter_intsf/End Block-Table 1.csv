@@ -1,0 +1,2 @@
+1,:uint16,ro,ID,(ID Units:  SF: ) Identifies this as End block - Range: 0xFFFF
+2,:uint16,ro,L,(L Units: Registers SF: ) Length of model block - Range: 0

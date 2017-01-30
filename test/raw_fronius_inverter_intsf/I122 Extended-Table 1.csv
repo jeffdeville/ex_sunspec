@@ -1,0 +1,27 @@
+"Start
+Offset","End
+Offset",Size,RW,"Function
+codes",Name,Description,Type,Units,Scale Factor,"Range
+of values"
+1,1,1,R,0x03,ID,A well-known value 122.  Uniquely identifies this as a SunSpec Measurements_Status Model,uint16,,,122
+2,2,1,R,0x03,L,Length of Measurements_Status Model,uint16,Registers,,44
+3,3,1,R,0x03,PVConn,PV inverter present/available status. Enumerated value.,bitfield16,,,"Bit 0: Connected Bit 1: Available Bit 2: Operating Bit 3: Test"
+4,4,1,R,0x03,StorConn,Storage inverter present/available status. Enumerated value.,bitfield16,,,"bit 0: CONNECTED bit 1: AVAILABLE bit 2: OPERATING bit 3: TEST"
+5,5,1,R,0x03,ECPConn,ECP connection status: disconnected=0  connected=1.,bitfield16,,,"0: Disconnected 1: Connected"
+6,9,4,R,0x03,ActWh,AC lifetime active (real) energy output.,acc64,Wh,,
+10,13,4,R,0x03,ActVAh,AC lifetime apparent energy output.,acc64,VAh,,Not supported
+14,17,4,R,0x03,ActVArhQ1,AC lifetime reactive energy output in quadrant 1.,acc64,varh,,Not supported
+18,21,4,R,0x03,ActVArhQ2,AC lifetime reactive energy output in quadrant 2.,acc64,varh,,Not supported
+22,25,4,R,0x03,ActVArhQ3,AC lifetime negative energy output  in quadrant 3.,acc64,varh,,Not supported
+26,29,4,R,0x03,ActVArhQ4,AC lifetime reactive energy output  in quadrant 4.,acc64,varh,,Not supported
+30,30,1,R,0x03,VArAval,Amount of VARs available without impacting watts output.,int16,var,VArAval_SF,Not supported
+31,31,1,R,0x03,VArAval_SF,Scale factor for available VARs.,sunssf,,,Not supported
+32,32,1,R,0x03,WAval,Amount of Watts available.,uint16,W,WAval_SF,Not supported
+33,33,1,R,0x03,WAval_SF,Scale factor for available Watts.,sunssf,,,Not supported
+34,35,2,R,0x03,StSetLimMsk,Bit Mask indicating setpoint limit(s) reached. Bits are persistent and must be cleared by the controller.,bitfield32,,,Not supported
+36,37,2,R,0x03,StActCtl,Bit Mask indicating which inverter controls are currently active.,bitfield32,,,"Bit 0: FixedW Bit 1: FixedVAR Bit 2: FixedPF"
+38,41,4,R,0x03,TmSrc,Source of time synchronization.,String8,,,RTC
+42,43,2,RW,"0x03 0x06 0x10",Tms,Seconds since 01-01-2000 00:00 UTC,uint32,Secs,,
+44,44,1,R,0x03,RtSt,Bit Mask indicating which voltage ride through modes are currently active.,bitfield16,,,Not supported
+45,45,1,R,0x03,Riso,Isolation resistance,uint16,Ohm,Riso_SF,
+46,46,1,R,0x03,Riso_SF,Scale factor for Isolation resistance,int16,,,
