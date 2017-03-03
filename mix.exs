@@ -5,6 +5,7 @@ defmodule ExSunspec.Mixfile do
     [app: :ex_sunspec,
      version: "0.1.0",
      elixir: "~> 1.4",
+     elixirrc_paths: elixirc_paths(Mix.env),
      description: "An Elixir SunSpec client implementation",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -34,6 +35,10 @@ defmodule ExSunspec.Mixfile do
     [extra_applications: [:logger]]
   end
 
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
+
   # Dependencies can be Hex packages:
   #
   #   {:my_dep, "~> 0.3.0"}
@@ -44,8 +49,10 @@ defmodule ExSunspec.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:ex_modbus, "~> 0.0.3"},
+    [{:ex_modbus, path: "../ex_modbus"},
      {:ex_doc, "~> 0.14.5", only: :dev},
-     {:nimble_csv, "~> 0.1.0"}]
+     {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
+     {:sweet_xml, "~> 0.6.5", runtime: false}
+    ]
   end
 end
