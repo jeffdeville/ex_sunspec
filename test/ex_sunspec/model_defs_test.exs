@@ -29,6 +29,11 @@ defmodule ExSunspec.ModeDefsTest do
     assert pad.access == "r"
   end
 
+  test "can override values" do
+    model = ModelDefs.load(1, %{1 => %{length: 65}})
+    assert model.length == 65
+  end
+
   describe "can parse model 101" do
     setup do
       {:ok, %{model: ModelDefs.load(101)}}

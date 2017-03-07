@@ -1,5 +1,12 @@
 defmodule ExSunspec.TestInverter do
-  use ExSunspec, start: 40_001, models: [1, 101, 120, 121, 122, 123]
+  use ExSunspec, start: 40_001,
+                 models: [1, 101, 120, 121, 122, 123],
+                 model_1_length_65: true
+  field :delete_data, :uint16, 212, 1, :rw, "Delete stored ratings of the current inverter by writing 0xFFFF"
+  field :store_data, :uint16, 213, 1, :rw, "Rating data of all inverters connected to the Fronius Datamanager are persistently stored by writing 0xFFFF."
+  field :active_state_code, :uint16, 214, 1, :r, "Current active state code of inverter - Description can be found in inverter manual"
+  field :reset_event_flags, :uint16, 215, 1, :rw, "Write 0xFFFF to reset all event flags and active state code."
+  field :model_type, :uint16, 216, 1, :rw, "Type of SunSpec models used for inverter and meter data. Write 1 or 2 and then immediately 6 to acknowledge setting.", enum_map: %{1 => "Floating point", 2 => "Integer & SF"}
 end
 
 defmodule ExSunSpecTest do
@@ -49,8 +56,18 @@ defmodule ExSunSpecTest do
     assert get_field_addr(:vendor_event_bitfield_4) == 40_120
 
     # Model 120
-    assert get_field_addr(:dertyp) == 40123
-    assert get_field_addr(:whrtg) == 40140
+    assert get_field_addr(:dertyp) == 40_124
+    assert get_field_addr(:whrtg) == 40_141
+
+    # Model 120
+    assert get_field_addr(:dertyp) == 40_124
+    assert get_field_addr(:whrtg) == 40_141
+  end
+
+  test "custom fields are defined" do
+    funcs = TestInverter.__info__(:functions)
+    assert Keyword.has_key?(funcs, :model_type)
+    assert get_field_addr(:model_type) == 216
   end
 
   test "writable fields are defined" do

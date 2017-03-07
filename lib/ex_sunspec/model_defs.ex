@@ -1,11 +1,12 @@
 defmodule ExSunspec.ModelDefs do
   import SweetXml
 
-  @spec load(number) :: ExSunspec.Model.t
-  def load(model_num) do
+  @spec load(number, %{}) :: ExSunspec.Model.t
+  def load(model_num, overrides \\ %{}) do
     model_num
     |> load_xml
     |> build_model_def
+    |> Map.merge(Map.get(overrides, model_num, %{}))
   end
 
   @spec load_xml(number) :: String.t

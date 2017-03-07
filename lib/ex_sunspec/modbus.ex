@@ -1,18 +1,18 @@
 defmodule ExSunspec.Modbus do
   def fieldify([], _, acc), do: acc
   def fieldify([model | rest], start, acc) do
-    IO.puts inspect "Starting point for #{model.name} is #{start + 2}"
+    # IO.puts inspect "Starting point for #{model.name} is #{start + 2}"
     acc = model.points
     |> Enum.filter(&include?/1)
     |> Enum.reduce(acc, fn(field_struct, acc) ->
       acc ++ [to_field(start, field_struct)]
     end)
-    IO.puts inspect [start, model.length]
-    fieldify(rest, start + model.length + 1, acc)
+    # IO.puts inspect [start, model.length]
+    fieldify(rest, start + model.length + 2, acc)
   end
 
   def to_field(start, field) do
-    IO.puts inspect ["--", start + field.offset + 2, get_name(field.name)]
+    # IO.puts inspect ["--", start + field.offset + 2, get_name(field.name)]
     {
       get_name(field.name),
       get_type(field.type),
