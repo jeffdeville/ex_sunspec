@@ -17,4 +17,5 @@ dependencies:
     - mix deps.compile
 test:
   override:
-    - mix test
+    - MIX_ENV=test mix do compile --warnings-as-errors, test
+    - mix credo --strict
