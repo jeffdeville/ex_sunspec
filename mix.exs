@@ -49,7 +49,7 @@ defmodule ExSunspec.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:ex_modbus, path: "../ex_modbus"},
+    [{:ex_modbus, github: "jeffdeville/ex_modbus", branch: "tcp-tests" },
      {:ex_doc, "~> 0.14.5", only: :dev},
      {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
      {:sweet_xml, "~> 0.6.5", runtime: false}
