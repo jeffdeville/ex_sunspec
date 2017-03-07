@@ -1,4 +1,5 @@
 defmodule ExSunspec.Modbus do
+  @spec fieldify(list(), integer(), list()) :: list()
   def fieldify([], _, acc), do: acc
   def fieldify([model | rest], start, acc) do
     # IO.puts inspect "Starting point for #{model.name} is #{start + 2}"
@@ -11,6 +12,8 @@ defmodule ExSunspec.Modbus do
     fieldify(rest, start + model.length + 2, acc)
   end
 
+  @type field_data :: {atom, atom, integer, integer, atom, String.t, String.t, map}
+  @spec to_field(integer(), map()) :: field_data
   def to_field(start, field) do
     # IO.puts inspect ["--", start + field.offset + 2, get_name(field.name)]
     {
@@ -25,10 +28,12 @@ defmodule ExSunspec.Modbus do
     }
   end
 
+  @spec include?(%{name: String.t | nil}) :: boolean
   def include?(%{name: nil}), do: false
   def include?(%{name: ""}), do: false
   def include?(%{name: _}), do: true
 
+  @spec get_name(String.t | nil) :: String.t | nil
   def get_name(nil), do: nil
   def get_name(name) do
     name
@@ -38,9 +43,11 @@ defmodule ExSunspec.Modbus do
     |> String.to_atom
   end
 
+  @spec get_type(atom | String.t) :: atom
   def get_type(type) when is_atom(type), do: type
   def get_type(type), do: String.to_atom(type)
 
+  @spec get_length(integer | nil, String.t | atom) :: integer
   def get_length(nil, "sunssf"), do: 1
   def get_length(nil, type) when is_atom(type), do: get_length(nil, Atom.to_string(type))
   def get_length(nil, type) do
@@ -51,6 +58,7 @@ defmodule ExSunspec.Modbus do
   end
   def get_length(len, _), do: len
 
+  @spec get_access(String.t | nil | atom) :: atom
   def get_access(""), do: :r
   def get_access(nil), do: :r
   def get_access(access) when is_atom(access), do: access

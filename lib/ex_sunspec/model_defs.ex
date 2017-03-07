@@ -18,7 +18,8 @@ defmodule ExSunspec.ModelDefs do
 
   @spec build_model_def(String.t) :: map
   defp build_model_def(xml) do
-    model = xml |> xmap(
+    raw_model = xml
+    |> xmap(
       name: ~x"//strings/model/label/text()"s,
       length: ~x"//model/@len"i,
       desc: ~x"//strings/model/description/text()"s,
@@ -40,7 +41,7 @@ defmodule ExSunspec.ModelDefs do
       ]
     )
 
-    model = Map.put(model, :points, mapify_point_enums(model.points))
+    model = Map.put(raw_model, :points, mapify_point_enums(raw_model.points))
 
     docs = xml |> xpath(
       ~x"//strings/point"l,

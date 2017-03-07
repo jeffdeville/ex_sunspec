@@ -4,17 +4,7 @@ defmodule ExSunspec do
   defmacro __using__(opts) do
     start = opts[:start]
     model_ids = opts[:models]
-    overrides = case Keyword.has_key?(opts, :overrides) do
-      true ->
-        {overrides, _} = Code.eval_quoted(opts[:overrides])
-        overrides
-      false -> %{}
-    end
-    model_1_length_65 = Keyword.get(opts, :model_1_length_65, false)
-    overrides = case model_1_length_65 do
-      true -> Map.merge(overrides, %{1 => %{length: 65}})
-      false -> overrides
-    end
+    overrides = setup_overrides(opts)
 
     alias ExSunspec.ModelDefs
     import ExSunspec.Modbus
@@ -34,6 +24,20 @@ defmodule ExSunspec do
     quote do
       use ExModbus
       unquote(fields_ast)
+    end
+  end
+
+  defp setup_overrides(opts) do
+    overrides = case Keyword.has_key?(opts, :overrides) do
+      true ->
+        {overrides, _} = Code.eval_quoted(opts[:overrides])
+        overrides
+      false -> %{}
+    end
+    model_1_length_65 = Keyword.get(opts, :model_1_length_65, false)
+    case model_1_length_65 do
+      true -> Map.merge(overrides, %{1 => %{length: 65}})
+      false -> overrides
     end
   end
 end
