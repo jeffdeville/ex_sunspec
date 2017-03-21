@@ -1,7 +1,4 @@
 defmodule Fronius do
-
-end
-defmodule Fronius do
   use ExSunspec, start: 40_001,
                  models: [1, 111, 120, 121, 122, 123],
                  model_1_length_65: true
