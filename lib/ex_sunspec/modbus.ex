@@ -53,7 +53,7 @@ defmodule ExSunspec.Modbus do
   def get_length(nil, type) do
     case Regex.run(~r"\d+$", type) do
       nil -> raise "Could not determine length of type: #{type}"
-      [len] -> (len |> String.to_integer) / 16
+      [len] -> round((len |> String.to_integer) / 16)
     end
   end
   def get_length(len, _), do: len

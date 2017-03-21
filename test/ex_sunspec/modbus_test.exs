@@ -65,5 +65,12 @@ defmodule ExSunspec.FieldTest do
       assert get_length(nil, "int32") == 2
       assert get_length(nil, :int32) == 2
     end
+
+    test "when type is float32" do
+      assert !is_float(get_length(nil, "float32"))
+      assert !is_float(get_length(nil, :float32))
+      assert get_length(nil, "float32") == 2
+      assert get_length(nil, :float32) == 2
+    end
   end
 end
