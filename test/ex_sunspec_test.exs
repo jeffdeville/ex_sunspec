@@ -38,6 +38,16 @@ defmodule ExSunSpecTest do
     end)
   end
 
+  def get_field_groups(name) do
+    TestInverter.field_groups()
+    |> Enum.find(fn(val) ->
+      case val do
+        {^name, _, _} -> true
+        _ -> false
+      end
+    end)
+  end
+
   test "fields are defined" do
     funcs = TestInverter.__info__(:functions)
     assert Keyword.has_key?(funcs, :manufacturer)
@@ -77,5 +87,12 @@ defmodule ExSunSpecTest do
 
   test "enumerated fields are handled" do
     assert get_field_enums(:operating_state) == %{1 => "OFF", 2 => "SLEEPING", 3 => "STARTING", 4 => "MPPT", 5 => "THROTTLED", 6 => "SHUTTING_DOWN", 7 => "FAULT", 8 => "STANDBY"}
+  end
+
+  test "field groups are defined" do
+    funcs = TestInverter.__info__(:functions)
+    assert Keyword.has_key?(funcs, :common)
+    fg = get_field_groups(:common)
+    assert {:common, [:manufacturer, :model, :options, :version, :serial_number, :device_address], _} = fg
   end
 end

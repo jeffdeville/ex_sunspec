@@ -2,20 +2,30 @@ defmodule ExSunspec.Modbus do
   @spec fieldify(list(), integer(), list()) :: list()
   def fieldify([], _, acc), do: acc
   def fieldify([model | rest], start, acc) do
-    # IO.puts inspect "Starting point for #{model.name} is #{start + 2}"
     acc = model.points
     |> Enum.filter(&include?/1)
     |> Enum.reduce(acc, fn(field_struct, acc) ->
       acc ++ [to_field(start, field_struct)]
     end)
-    # IO.puts inspect [start, model.length]
     fieldify(rest, start + model.length + 2, acc)
+  end
+
+  @spec field_groupify(list(map())) :: list(tuple())
+  def field_groupify(models) do
+    models
+    |> Enum.map(fn model ->
+      name = get_name(model.name)
+      fields = model.points
+        |> Enum.map(&(&1.name))
+        |> Enum.map(&get_name/1)
+        |> Enum.reject(&(&1 == :""))
+      {name, fields}
+    end)
   end
 
   @type field_data :: {atom, atom, integer, integer, atom, String.t, String.t, map}
   @spec to_field(integer(), map()) :: field_data
   def to_field(start, field) do
-    # IO.puts inspect ["--", start + field.offset + 2, get_name(field.name)]
     {
       get_name(field.name),
       get_type(field.type),
@@ -38,6 +48,8 @@ defmodule ExSunspec.Modbus do
   def get_name(name) do
     name
     |> String.downcase
+    |> String.replace("(", "")
+    |> String.replace(")", "")
     |> String.split(" ")
     |> Enum.join("_")
     |> String.to_atom

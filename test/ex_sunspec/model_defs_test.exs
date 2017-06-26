@@ -11,7 +11,7 @@ defmodule ExSunspec.ModeDefsTest do
     assert model.notes == ""
 
     # now test the 'points'
-    assert Enum.count(model.points) == 7
+    assert Enum.count(model.points) == 6
     [mn | _rest] = model.points
     assert mn.id == "Mn"
     assert mn.offset == 0
@@ -22,11 +22,11 @@ defmodule ExSunspec.ModeDefsTest do
     assert mn.desc == "Well known value registered with SunSpec for compliance"
     assert mn.notes == ""
 
-    pad = model.points |> List.last
-    assert pad.id == "Pad"
-    assert pad.offset == 65
-    assert pad.type == "pad"
-    assert pad.access == "r"
+    da = model.points |> List.last
+    assert da.id == "DA"
+    assert da.offset == 64
+    assert da.type == "uint16"
+    assert da.access == "rw"
   end
 
   test "can override values" do
