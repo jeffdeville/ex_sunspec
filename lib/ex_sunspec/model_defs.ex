@@ -61,6 +61,7 @@ defmodule ExSunspec.ModelDefs do
       |> Map.merge(pt)
       |> Map.merge(doc)
     end)
+    |> Enum.reject(fn(pt) -> pt.name == "" end)
 
     Map.put(model, :points, points)
   end
