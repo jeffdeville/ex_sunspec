@@ -43,10 +43,24 @@ defmodule ExSunspec do
         overrides
       false -> %{}
     end
+
+    overrides
+    |> model_1_length(opts)
+    |> models_path(opts)
+  end
+
+  defp model_1_length(overrides, opts) do
     model_1_length_65 = Keyword.get(opts, :model_1_length_65, false)
     case model_1_length_65 do
       true -> Map.merge(overrides, %{1 => %{length: 65}})
       false -> overrides
+    end
+  end
+
+  defp models_path(overrides, opts) do
+    case Keyword.get(opts, :models_path) do
+      nil -> overrides
+      model_paths -> Map.merge(overrides, %{model_paths: model_paths})
     end
   end
 end

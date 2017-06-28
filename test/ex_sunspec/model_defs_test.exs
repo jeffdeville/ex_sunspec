@@ -1,6 +1,8 @@
 defmodule ExSunspec.ModeDefsTest do
   use ExUnit.Case
   alias ExSunspec.ModelDefs
+  @root_dir File.cwd!
+  @test_dir Path.join(@root_dir, "test")
 
   test "can parse xml into a model" do
     model = ModelDefs.load(1)
@@ -27,6 +29,11 @@ defmodule ExSunspec.ModeDefsTest do
     assert da.offset == 64
     assert da.type == "uint16"
     assert da.access == "rw"
+  end
+
+  test "can override the model_defs folder" do
+    model = ModelDefs.load(1, %{models_path: Path.join([@test_dir, "test_models"])})
+    assert model.name == "Testing"
   end
 
   test "can override values" do
