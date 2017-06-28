@@ -1,6 +1,8 @@
 defmodule ExSunspec.ModeDefsTest do
   use ExUnit.Case
   alias ExSunspec.ModelDefs
+  @root_dir File.cwd!
+  @test_dir Path.join(@root_dir, "test")
 
   test "can parse xml into a model" do
     model = ModelDefs.load(1)
@@ -29,9 +31,43 @@ defmodule ExSunspec.ModeDefsTest do
     assert da.access == "rw"
   end
 
+  test "can override the model_defs folder" do
+    model = ModelDefs.load(1, %{models_path: Path.join([@test_dir, "test_models"])})
+    assert model.name == "Testing"
+  end
+
   test "can override values" do
     model = ModelDefs.load(1, %{1 => %{length: 65}})
     assert model.length == 65
+  end
+
+  describe "can parse model 10 (pad)" do
+    setup do
+      {:ok, %{model: ModelDefs.load(10)}}
+    end
+
+    test "pad is ignored", %{model: model} do
+      refute "Pad" == List.last(model.points)[:name]
+    end
+  end
+
+  describe "can apply prefix to names" do
+    setup do
+      {:ok, %{model: ModelDefs.load({10, "jeff_"})}}
+    end
+
+    test "jeff_Interface Status is defined", %{model: model} do
+      model[:points]
+      |> Enum.any?(fn
+        %{name: "jeff_Interface Status"} -> true
+        _ -> false
+      end)
+      |> assert
+    end
+
+    test "jeff_Communication Interface Header is defined", %{model: model} do
+      assert model[:name] == "jeff_Communication Interface Header"
+    end
   end
 
   describe "can parse model 101" do
