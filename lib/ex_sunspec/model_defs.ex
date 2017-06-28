@@ -3,16 +3,17 @@ defmodule ExSunspec.ModelDefs do
 
   @spec load(number, %{}) :: ExSunspec.Model.t
   def load(model_num, overrides \\ %{}) do
+    models_path = Map.get(overrides, :models_path, Path.join([:code.priv_dir(:ex_sunspec), "sunspec_models", "smdx"]))
     model_num
-    |> load_xml
+    |> load_xml(models_path)
     |> build_model_def
     |> Map.merge(Map.get(overrides, model_num, %{}))
   end
 
-  @spec load_xml(number) :: String.t
-  defp load_xml(model_num) do
+  @spec load_xml(number, String.t()) :: String.t
+  defp load_xml(model_num, models_path) do
     file_portion = model_num |> Integer.to_string |> String.pad_leading(5, "0")
-    path = Path.join([:code.priv_dir(:ex_sunspec), "sunspec_models", "smdx", "smdx_#{file_portion}.xml"])
+    path = Path.join([models_path, "smdx_#{file_portion}.xml"])
     File.read!(path)
   end
 
