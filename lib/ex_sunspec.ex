@@ -4,7 +4,6 @@ defmodule ExSunspec do
   defmacro __using__(opts) do
     start = opts[:start]
     model_ids = opts[:models]
-    model_prefixes = opts[:prefixes]
     overrides = setup_overrides(opts)
 
     alias ExSunspec.ModelDefs
@@ -44,7 +43,6 @@ defmodule ExSunspec do
         overrides
       false -> %{}
     end
-
     overrides
     |> model_1_length(opts)
     |> models_path(opts)
@@ -61,7 +59,7 @@ defmodule ExSunspec do
   defp models_path(overrides, opts) do
     case Keyword.get(opts, :models_path) do
       nil -> overrides
-      model_paths -> Map.merge(overrides, %{model_paths: model_paths})
+      override_path -> Map.put(overrides, :models_path, override_path)
     end
   end
 end

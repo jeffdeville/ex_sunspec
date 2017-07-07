@@ -34,6 +34,19 @@ defmodule ExSunspec.ModeDefsTest do
   test "can override the model_defs folder" do
     model = ModelDefs.load(1, %{models_path: Path.join([@test_dir, "test_models"])})
     assert model.name == "Testing"
+
+    model = ModelDefs.load(101, %{models_path: Path.join([@test_dir, "test_models"])})
+    assert model.name == "Inverter (Single Phase)"
+  end
+
+  test "error raised when no model file found" do
+    assert_raise ArgumentError, "Model file -1 not found", fn ->
+      ModelDefs.load(-1)
+    end
+
+    assert_raise ArgumentError, "Model file -1 not found", fn ->
+      ModelDefs.load(-1, %{models_path: Path.join([@test_dir, "test_models"])})
+    end
   end
 
   test "can override values" do
