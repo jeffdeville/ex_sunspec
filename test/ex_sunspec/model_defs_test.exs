@@ -20,7 +20,7 @@ defmodule ExSunspec.ModeDefsTest do
     assert mn.type == "string"
     assert mn.len == 16
     assert mn.access == ""
-    assert mn.name == "Manufacturer"
+    assert mn.name == "Common Manufacturer"
     assert mn.desc == "Well known value registered with SunSpec for compliance"
     assert mn.notes == ""
 
@@ -59,7 +59,7 @@ defmodule ExSunspec.ModeDefsTest do
     test "jeff_Interface Status is defined", %{model: model} do
       model[:points]
       |> Enum.any?(fn
-        %{name: "jeff_Interface Status"} -> true
+        %{name: "jeff_Communication Interface Header Interface Status"} -> true
         _ -> false
       end)
       |> assert
@@ -80,7 +80,7 @@ defmodule ExSunspec.ModeDefsTest do
       assert aph_a.sf == "A_SF"
 
       a_sf = Enum.find(model.points, fn(pt) -> pt.id == "A_SF" end)
-      assert a_sf.name == "A_SF"
+      assert a_sf.name == "Inverter (Single Phase) A_SF"
     end
 
     test "units", %{model: model} do

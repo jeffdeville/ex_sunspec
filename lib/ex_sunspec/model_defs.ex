@@ -1,13 +1,18 @@
 defmodule ExSunspec.ModelDefs do
   import SweetXml
 
-  @spec load(number, %{}) :: ExSunspec.Model.t
-  def load(model_num, overrides \\ %{}) do
+  @spec load(number | {number, String.t}, %{}) :: ExSunspec.Model.t
+  def load(model_num, overrides \\ %{})
+  def load(model_num, overrides) when is_number(model_num) do
     models_path = Map.get(overrides, :models_path, Path.join([:code.priv_dir(:ex_sunspec), "sunspec_models", "smdx"]))
     model_num
     |> load_xml(models_path)
     |> build_model_def
     |> Map.merge(Map.get(overrides, model_num, %{}))
+  end
+  def load({model_num, prefix}, overrides) do
+    load(model_num, overrides)
+    |> apply_prefix(prefix)
   end
 
   @spec load_xml(number, String.t()) :: String.t
@@ -21,6 +26,7 @@ defmodule ExSunspec.ModelDefs do
   defp build_model_def(xml) do
     raw_model = xml
     |> xmap(
+      id: ~x"//model/@id"i,
       name: ~x"//strings/model/label/text()"s,
       length: ~x"//model/@len"i,
       desc: ~x"//strings/model/description/text()"s,
@@ -64,8 +70,9 @@ defmodule ExSunspec.ModelDefs do
     end)
     |> Enum.reject(fn(pt) -> pt.name == "" end)
     |> Enum.reject(fn(pt) -> pt.name == "Pad" end)
+    |> Enum.map(fn (pt) -> %{pt | name: "#{model[:name]} #{pt[:name]}"} end)
 
-    Map.put(model, :points, points)
+    %{model | points: points}
   end
 
   defp mapify_point_enums(points) do
@@ -80,5 +87,11 @@ defmodule ExSunspec.ModelDefs do
       Map.put(acc, id, val)
     end)
     Map.put(point, :enum, enums)
+  end
+
+  def apply_prefix(model, prefix),
+    do: %{model | name: prefix <> model[:name], points: do_apply_prefix(model[:points], prefix)}
+  defp do_apply_prefix(points, prefix) do
+    Enum.map(points, fn %{name: name} = point -> %{point | name: prefix <> name} end)
   end
 end
