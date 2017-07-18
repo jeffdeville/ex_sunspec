@@ -1,6 +1,6 @@
 defmodule ExSunspec.TestInverter do
   use ExSunspec, start: 40_001,
-                 models: [1, 101, 120, 121, 122, 123],
+                 models: [1, 101, 120, 121, 122, 123, {10, "branch_"}, {10, "inverter_"}],
                  model_1_length_65: true
   field :delete_data, :uint16, 212, 1, :rw, "Delete stored ratings of the current inverter by writing 0xFFFF"
   field :store_data, :uint16, 213, 1, :rw, "Rating data of all inverters connected to the Fronius Datamanager are persistently stored by writing 0xFFFF."
@@ -50,28 +50,24 @@ defmodule ExSunSpecTest do
 
   test "fields are defined" do
     funcs = TestInverter.__info__(:functions)
-    assert Keyword.has_key?(funcs, :manufacturer)
-    assert Keyword.has_key?(funcs, :model)
-    assert Keyword.has_key?(funcs, :options)
-    assert Keyword.has_key?(funcs, :version)
-    assert Keyword.has_key?(funcs, :serial_number)
-    assert Keyword.has_key?(funcs, :device_address)
+    assert Keyword.has_key?(funcs, :common_manufacturer)
+    assert Keyword.has_key?(funcs, :common_model)
+    assert Keyword.has_key?(funcs, :common_options)
+    assert Keyword.has_key?(funcs, :common_version)
+    assert Keyword.has_key?(funcs, :common_serial_number)
+    assert Keyword.has_key?(funcs, :common_device_address)
 
     # Model 1
-    assert get_field_addr(:manufacturer) == 40_005
+    assert get_field_addr(:common_manufacturer) == 40_005
 
     # Model 101
-    assert get_field_addr(:amps) == 40_072
-    assert get_field_addr(:operating_state) == 40_108
-    assert get_field_addr(:vendor_event_bitfield_4) == 40_120
+    assert get_field_addr(:inverter_single_phase_amps) == 40_072
+    assert get_field_addr(:inverter_single_phase_operating_state) == 40_108
+    assert get_field_addr(:inverter_single_phase_vendor_event_bitfield_4) == 40_120
 
     # Model 120
-    assert get_field_addr(:dertyp) == 40_124
-    assert get_field_addr(:whrtg) == 40_141
-
-    # Model 120
-    assert get_field_addr(:dertyp) == 40_124
-    assert get_field_addr(:whrtg) == 40_141
+    assert get_field_addr(:nameplate_dertyp) == 40_124
+    assert get_field_addr(:nameplate_whrtg) == 40_141
   end
 
   test "custom fields are defined" do
@@ -81,18 +77,33 @@ defmodule ExSunSpecTest do
   end
 
   test "writable fields are defined" do
-    assert get_field_perms(:manufacturer) == :r
-    assert get_field_perms(:conn_wintms) == :rw
+    assert get_field_perms(:common_manufacturer) == :r
+    assert get_field_perms(:immediate_controls_conn_wintms) == :rw
   end
 
   test "enumerated fields are handled" do
-    assert get_field_enums(:operating_state) == %{1 => "OFF", 2 => "SLEEPING", 3 => "STARTING", 4 => "MPPT", 5 => "THROTTLED", 6 => "SHUTTING_DOWN", 7 => "FAULT", 8 => "STANDBY"}
+    assert get_field_enums(:inverter_single_phase_operating_state) == %{1 => "OFF", 2 => "SLEEPING", 3 => "STARTING", 4 => "MPPT", 5 => "THROTTLED", 6 => "SHUTTING_DOWN", 7 => "FAULT", 8 => "STANDBY"}
   end
 
   test "field groups are defined" do
     funcs = TestInverter.__info__(:functions)
     assert Keyword.has_key?(funcs, :common)
     fg = get_field_groups(:common)
-    assert {:common, [:manufacturer, :model, :options, :version, :serial_number, :device_address], _} = fg
+    assert {:common, [:common_manufacturer, :common_model, :common_options, :common_version, :common_serial_number, :common_device_address], _} = fg
+  end
+
+  test "prefixed field_groups are defined" do
+    funcs = TestInverter.__info__(:functions)
+    assert Keyword.has_key?(funcs, :branch_communication_interface_header)
+    fg = get_field_groups(:branch_communication_interface_header)
+    assert {:branch_communication_interface_header, [
+      :branch_communication_interface_header_interface_status,
+      :branch_communication_interface_header_interface_control,
+      :branch_communication_interface_header_physical_access_type], _} = fg
+  end
+
+  test "prefixed fields are defined" do
+    funcs = TestInverter.__info__(:functions)
+    assert Keyword.has_key?(funcs, :branch_communication_interface_header_interface_status)
   end
 end

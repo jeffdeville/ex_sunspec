@@ -20,7 +20,7 @@ defmodule ExSunspec.ModeDefsTest do
     assert mn.type == "string"
     assert mn.len == 16
     assert mn.access == ""
-    assert mn.name == "Manufacturer"
+    assert mn.name == "Common Manufacturer"
     assert mn.desc == "Well known value registered with SunSpec for compliance"
     assert mn.notes == ""
 
@@ -34,11 +34,53 @@ defmodule ExSunspec.ModeDefsTest do
   test "can override the model_defs folder" do
     model = ModelDefs.load(1, %{models_path: Path.join([@test_dir, "test_models"])})
     assert model.name == "Testing"
+
+    model = ModelDefs.load(101, %{models_path: Path.join([@test_dir, "test_models"])})
+    assert model.name == "Inverter (Single Phase)"
+  end
+
+  test "error raised when no model file found" do
+    assert_raise ArgumentError, "Model file -1 not found", fn ->
+      ModelDefs.load(-1)
+    end
+
+    assert_raise ArgumentError, "Model file -1 not found", fn ->
+      ModelDefs.load(-1, %{models_path: Path.join([@test_dir, "test_models"])})
+    end
   end
 
   test "can override values" do
     model = ModelDefs.load(1, %{1 => %{length: 65}})
     assert model.length == 65
+  end
+
+  describe "can parse model 10 (pad)" do
+    setup do
+      {:ok, %{model: ModelDefs.load(10)}}
+    end
+
+    test "pad is ignored", %{model: model} do
+      refute "Pad" == List.last(model.points)[:name]
+    end
+  end
+
+  describe "can apply prefix to names" do
+    setup do
+      {:ok, %{model: ModelDefs.load({10, "jeff_"})}}
+    end
+
+    test "jeff_Interface Status is defined", %{model: model} do
+      model[:points]
+      |> Enum.any?(fn
+        %{name: "jeff_Communication Interface Header Interface Status"} -> true
+        _ -> false
+      end)
+      |> assert
+    end
+
+    test "jeff_Communication Interface Header is defined", %{model: model} do
+      assert model[:name] == "jeff_Communication Interface Header"
+    end
   end
 
   describe "can parse model 101" do
@@ -51,7 +93,7 @@ defmodule ExSunspec.ModeDefsTest do
       assert aph_a.sf == "A_SF"
 
       a_sf = Enum.find(model.points, fn(pt) -> pt.id == "A_SF" end)
-      assert a_sf.name == "A_SF"
+      assert a_sf.name == "Inverter (Single Phase) A_SF"
     end
 
     test "units", %{model: model} do

@@ -1,26 +1,43 @@
 defmodule ExSunspec.ModelDefs do
   import SweetXml
 
-  @spec load(number, %{}) :: ExSunspec.Model.t
-  def load(model_num, overrides \\ %{}) do
-    models_path = Map.get(overrides, :models_path, Path.join([:code.priv_dir(:ex_sunspec), "sunspec_models", "smdx"]))
+  @spec load(number | {number, String.t}, %{}) :: ExSunspec.Model.t
+  def load(model_num, overrides \\ %{})
+  def load(model_num, overrides) when is_number(model_num) do
     model_num
-    |> load_xml(models_path)
+    |> load_xml(overrides)
     |> build_model_def
     |> Map.merge(Map.get(overrides, model_num, %{}))
   end
+  def load({model_num, prefix}, overrides) do
+    model_num
+    |> load(overrides)
+    |> apply_prefix(prefix)
+  end
 
-  @spec load_xml(number, String.t()) :: String.t
-  defp load_xml(model_num, models_path) do
+  @spec load_xml(number, map()) :: String.t
+  defp load_xml(model_num, overrides) do
     file_portion = model_num |> Integer.to_string |> String.pad_leading(5, "0")
-    path = Path.join([models_path, "smdx_#{file_portion}.xml"])
-    File.read!(path)
+    default_path = Path.join([:code.priv_dir(:ex_sunspec), "sunspec_models", "smdx"])
+    paths = case overrides do
+      %{models_path: models_path} -> [models_path, default_path]
+      _ -> [default_path]
+    end
+
+    file = paths
+      |> Enum.map(&(Path.join([&1, "smdx_#{file_portion}.xml"])))
+      |> Enum.find(&(File.exists?(&1)))
+    case file do
+      nil -> raise ArgumentError, "Model file #{model_num} not found"
+      path -> File.read!(path)
+    end
   end
 
   @spec build_model_def(String.t) :: map
   defp build_model_def(xml) do
     raw_model = xml
     |> xmap(
+      id: ~x"//model/@id"i,
       name: ~x"//strings/model/label/text()"s,
       length: ~x"//model/@len"i,
       desc: ~x"//strings/model/description/text()"s,
@@ -63,8 +80,10 @@ defmodule ExSunspec.ModelDefs do
       |> Map.merge(doc)
     end)
     |> Enum.reject(fn(pt) -> pt.name == "" end)
+    |> Enum.reject(fn(pt) -> pt.name == "Pad" end)
+    |> Enum.map(fn (pt) -> %{pt | name: "#{model[:name]} #{pt[:name]}"} end)
 
-    Map.put(model, :points, points)
+    %{model | points: points}
   end
 
   defp mapify_point_enums(points) do
@@ -79,5 +98,11 @@ defmodule ExSunspec.ModelDefs do
       Map.put(acc, id, val)
     end)
     Map.put(point, :enum, enums)
+  end
+
+  defp apply_prefix(model, prefix) when is_map(model),
+    do: %{model | name: prefix <> model[:name], points: apply_prefix(model[:points], prefix)}
+  defp apply_prefix(points, prefix) when is_list(points) do
+    Enum.map(points, fn %{name: name} = point -> %{point | name: prefix <> name} end)
   end
 end
